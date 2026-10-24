@@ -1,0 +1,51 @@
+﻿ID,Prioridad,Tipo,Rol,Precondicion,Pasos,Resultado esperado,Resultado obtenido,Observaciones,Evidencia
+"TC-001","Alta","Smoke / Funcional","Estudiante","Usuario estudiante.qa creado y matriculado en PSI-101.","1. Abrir /login.
+2. Ingresar usuario y contraseña del estudiante.
+3. Pulsar Log in.","Accede al dashboard con su saludo y ve el curso PSI-101.","Pasa","Dashboard con el curso visible.","P7_TC-001_estudiante_dashboard-login"
+"TC-002","Alta","Permisos / Negativa","Estudiante","Sesión iniciada como estudiante.","1. Revisar el menú principal.
+2. Abrir el menú de usuario.","No existe Site administration ni opciones administrativas.","Pasa","El menú superior solo muestra Dashboard; el menú de usuario no ofrece administración.","P7_TC-002_estudiante_menu-usuario-sin-admin"
+"TC-003","Alta","Permisos","Estudiante","Sesión iniciada como estudiante.","1. Abrir el curso PSI-101.
+2. Buscar el interruptor Edit mode.","No aparece Edit mode ni controles de edición del curso.","Pasa","Sin interruptor de edición dentro del curso.","P7_TC-003_estudiante_curso-sin-edit-mode"
+"TC-004","Alta","Permisos / Negativa","Estudiante","Sesión iniciada como estudiante.","1. Escribir en la URL /admin/user.php.","Acceso denegado, sin mostrar datos de usuarios.","Pasa","Mensaje «Access denied» sin datos.","P7_TC-004_estudiante_admin-user-acceso-denegado"
+"TC-005","Alta","Smoke / Permisos","Docente","Usuario docente.qa con rol Teacher en PSI-101.","1. Iniciar sesión como docente.
+2. Abrir PSI-101.
+3. Activar Edit mode.","Aparecen edición de secciones, agregar contenido, Bulk actions y la pestaña Settings.","Pasa","Todas las opciones de edición disponibles.","P7_TC-005_docente_dashboard-login; P7_TC-005_docente_curso-edit-mode"
+"TC-006","Alta","Permisos / Negativa","Docente","Sesión iniciada como docente.","1. Escribir en la URL /admin/user.php.","Acceso denegado.","Pasa","«Access denied»; el menú solo muestra Dashboard.","P7_TC-006_docente_admin-user-acceso-denegado"
+"TC-007","Media","Funcional","Docente","Sesión iniciada como docente; 3 participantes en PSI-101.","1. Abrir PSI-101 > Participants.","Ve a los 3 participantes con correo, rol, grupos, último acceso y estado, y dispone de Enrol users.","Pasa","Lista completa y botón Enrol users disponible.","P7_TC-007_docente_participantes-lista"
+"TC-008","Media","Permisos / Exploratoria","Estudiante","Sesión iniciada como estudiante.","1. Abrir PSI-101 > Participants.","Solo ve los datos que el curso permite a un estudiante (sin correos).","Pasa con observación","Sin correos, pero ve el último acceso al curso de docente y administrador (O-1).","P7_TC-008_estudiante_participantes-lista"
+"TC-009","Alta","Funcional","Docente","Docente en PSI-101 con Edit mode activado.","1. Add an activity > Assignment.
+2. Capturar nombre y descripción.
+3. Configurar Due date.
+4. Activar Online text con Word limit = 100.
+5. Save and return to course.","La tarea aparece en el curso con la fecha límite guardada y calificación máxima de 100.","Pasa","Se crearon dos tareas: Reflexión (vence 14/10, vencida a propósito para TC-013) y Reflexión 2 (vence 30/10 23:59). Validado en SQL 01 y 02.","P7_TC-009_docente_curso-dos-tareas; P7_TC-009_docente_tarea-formulario-general; P7_TC-009_docente_tarea-formulario-disponibilidad; P7_TC-009_docente_tarea-fecha-entrega; P7_TC-009_docente_tarea2-formulario-general; P7_TC-009_docente_tarea2-formulario-disponibilidad; P7_TC-009_docente_tarea2-fecha-entrega; P7_TC-009_docente_tarea2-grade-out-of-100"
+"TC-010","Alta","Funcional / Frontera","Estudiante","Reflexión 2 disponible; texto de prueba de exactamente 100 palabras.","1. Abrir Reflexión 2.
+2. Pulsar Add submission.
+3. Pegar el texto de 100 palabras.
+4. Save changes.","La entrega se acepta (100 = límite) y queda como Submitted for grading.","Pasa","Contador «100 words»; entrega visible al docente. SQL 03: status = submitted.","P7_TC-010_estudiante_curso-dos-tareas; P7_TC-010_estudiante_100-palabras-entregado"
+"TC-011","Media","Funcional","Docente / Estudiante","Entrega del estudiante en estado Submitted.","1. Docente: abrir el calificador.
+2. Escribir 85 y un comentario.
+3. Save changes.
+4. Estudiante: abrir Reflexión 2 > Feedback y la página Grades.","La nota 85/100 se guarda; el estudiante la ve con el comentario y el libro de calificaciones coincide.","Pasa","85.00 / 100.00, «Graded by Docente Prueba». SQL 04 y 05 coinciden. En el calificador se observó BUG-001.","P7_TC-011_docente_entrega-sin-calificar; P7_TC-011_docente_nota-85-antes-de-guardar; P7_TC-011_docente_nota-85-guardada; P7_TC-011_estudiante_nota-y-retroalimentacion; P7_TC-011_estudiante_calificaciones"
+"TC-012","Media","Negativa / Frontera","Docente","Entrega calificada con 85.","1. Escribir 150 y pulsar Save changes.
+2. Escribir 101 y pulsar Save changes.
+3. Recargar el calificador.","Ambos valores se rechazan con un mensaje claro y la nota 85 se conserva.","Pasa","«Grade must be less than or equal to 100» y aviso de cambios no guardados. SQL 04: solo existe 85.","P7_TC-012_docente_nota-150-rechazada; P7_TC-012_docente_nota-101-rechazada; P7_TC-012_docente_nota-85-se-conserva"
+"TC-013","Media","Funcional / Frontera","Estudiante","Tarea Reflexión con fecha límite vencida (14/10).","1. Abrir la tarea vencida.
+2. Add submission con el texto de 100 palabras.
+3. Save changes.","La entrega se registra y se identifica como tardía, o se bloquea según la configuración.","Pasa","Se aceptó y se marcó en rojo «submitted 9 days 16 hours late». SQL 03: entrega posterior a la fecha límite.","P7_TC-013_estudiante_entrega-tardia"
+"TC-014","Baja","Negativa / Validación","Admin","Sesión de administrador; Add a new user abierto.","1. Llenar usuario, nombre, apellido y contraseña válida.
+2. Escribir en Email address: correo-invalido.
+3. Pulsar Create user.","El sistema rechaza el correo y explica el error.","Pasa","Campo en rojo con «Invalid email address».","P7_TC-014_admin_correo-sin-formato-rechazado"
+"TC-015","Alta","Permisos / Negativa","Estudiante","Sesión iniciada como estudiante.","1. Escribir en la URL /course/edit.php?id=2.","Mensaje de permisos insuficientes para actualizar el curso.","Pasa","«Sorry, but you do not currently have permissions to do that (Update course settings)».","P7_TC-015_estudiante_course-edit-permiso-denegado"
+"TC-016","Alta","Frontera / Negativa","Estudiante","Texto de prueba de 101 palabras; ambas tareas con límite de 100.","1. Abrir la tarea.
+2. Add submission con el texto de 101 palabras.
+3. Save changes (en las dos tareas).","La entrega se rechaza e indica el límite de palabras.","Pasa","«The word limit for this assignment is 100 words and you are attempting to submit 101 words» y «Nothing was submitted».","P7_TC-016_estudiante_tarea1-101-palabras-rechazado; P7_TC-016_estudiante_tarea2-101-palabras-rechazado"
+"TC-017","Media","Exploratoria","Docente","Docente en el formulario de nueva tarea.","1. Configurar una Due date anterior a la fecha actual.
+2. Save and return to course.","Buena práctica: advertencia al configurar una fecha límite ya vencida.","Observación","Moodle guarda la fecha pasada sin aviso (O-2). Es un comportamiento permitido, no un defecto.","P7_TC-009_docente_tarea-fecha-entrega; P7_SQL_01_tareas-y-fechas-limite"
+"TC-018","Media","Negativa / Validación","Admin","docente.qa@example.com ya existe.","1. Add a new user con datos válidos.
+2. Escribir docente.qa@example.com en Email address.
+3. Pulsar Create user.","El sistema rechaza el correo duplicado.","Pasa","«This email address is already registered.» SQL 07: 0 correos duplicados.","P7_TC-018_admin_correo-duplicado-rechazado; P7_SQL_07_correos-duplicados-ninguno"
+"TC-019","Alta","Regresión / Negativa (auto)","Anónimo","Moodle en línea; suite Playwright instalada.","1. Abrir /login/index.php.
+2. Ingresar estudiante.qa con una contraseña incorrecta.
+3. Pulsar Log in.","Se rechaza el acceso, se muestra un mensaje de error y se permanece en el login.","Pasa","«Unable to log in. Your login info may be incorrect. Please try again.»","P7_AUTO_pytest-resultado"
+"TC-020","Media","Accesibilidad (auto)","Todos","Suite axe-core con etiquetas WCAG 2.0/2.1 A y AA.","1. Escanear login, panel del estudiante, curso, tarea del estudiante y calificador del docente.
+2. Registrar las reglas incumplidas por página.","Cero violaciones críticas; todo hallazgo queda documentado.","Pasa con hallazgos","4 de 5 páginas con 0 reglas incumplidas; el calificador del docente tiene 2 de impacto serio (BUG-002 y BUG-003).","P7_AUTO_axe-violaciones"

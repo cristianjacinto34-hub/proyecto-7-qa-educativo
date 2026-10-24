@@ -1,0 +1,32 @@
+services:
+  db:
+    image: mariadb:11.4
+    container_name: p7-moodle-db
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: moodle
+      MARIADB_USER: moodle
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+    ports:
+      - "3310:3306"
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  moodle:
+    image: oksigenia/moodle:5.2
+    container_name: p7-moodle-app
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8085:8080"
+    environment:
+      MOODLE_URL: http://localhost:8085
+      MOODLE_DB_PASSWORD: ${MARIADB_PASSWORD}
+      MOODLE_ADMIN_PASSWORD: ${MOODLE_ADMIN_PASSWORD}
+      MOODLE_TIMEZONE: America/Cancun

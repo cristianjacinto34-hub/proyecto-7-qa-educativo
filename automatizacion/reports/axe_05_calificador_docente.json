@@ -1,0 +1,35 @@
+[
+  {
+    "regla": "aria-prohibited-attr",
+    "impacto": "serious",
+    "descripcion": "Elements must only use permitted ARIA attributes",
+    "elementos_afectados": 1,
+    "ayuda": "https://dequeuniversity.com/rules/axe/4.12/aria-prohibited-attr?application=axeAPI",
+    "wcag": [
+      "wcag412"
+    ],
+    "elementos": [
+      {
+        "selector": "div[data-region=\"resizer\"]",
+        "html": "<div data-region=\"resizer\" tabindex=\"0\" aria-label=\"Resize layout\" title=\"Resize layout\"></div>"
+      }
+    ]
+  },
+  {
+    "regla": "scrollable-region-focusable",
+    "impacto": "serious",
+    "descripcion": "Scrollable region must have keyboard access",
+    "elementos_afectados": 1,
+    "ayuda": "https://dequeuniversity.com/rules/axe/4.12/scrollable-region-focusable?application=axeAPI",
+    "wcag": [
+      "wcag211",
+      "wcag213"
+    ],
+    "elementos": [
+      {
+        "selector": ".drawingregion",
+        "html": "<div class=\"drawingregion\" data-currenttool=\"drag\">"
+      }
+    ]
+  }
+]
